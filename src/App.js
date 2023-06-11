@@ -7,6 +7,7 @@ import Month from "./components/Month";
 import GlobalContext from "./context/GlobalContext";
 import EventModal from "./components/EventModal";
 import LoginPopup from "./components/LoginPopup";
+import { AuthProvider } from "react-auth-kit";
 function App() {
   const [currenMonth, setCurrentMonth] = useState(getMonth());
   const { monthIndex, showEventModal } = useContext(GlobalContext);
@@ -18,16 +19,20 @@ function App() {
 
   return (
     <React.Fragment>
-      {showEventModal && <EventModal />}
-      {showLoginPopup && <LoginPopup />}
-
-      <div className="h-screen flex flex-col">
+      <AuthProvider
+      authType={"localstorage"}
+      authName={"_auth"}
+      >
+        {showEventModal && <EventModal />}
+        {showLoginPopup && <LoginPopup />}
+        <div className="h-screen flex flex-col">
         <CalendarHeader />
         <div className="flex flex-1">
           <Sidebar />
           <Month month={currenMonth} />
         </div>
       </div>
+      </AuthProvider>
     </React.Fragment>
   );
 }
