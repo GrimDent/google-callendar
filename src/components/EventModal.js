@@ -82,7 +82,7 @@ export default function EventModal() {
             <input
               type="text"
               name="title"
-              placeholder="Add title"
+              placeholder="Nazwa zadania"
               value={title}
               required
               className="pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
@@ -98,7 +98,7 @@ export default function EventModal() {
             <input
               type="text"
               name="description"
-              placeholder="Add a description"
+              placeholder="Opis zadania"
               value={description}
               required
               className="pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"

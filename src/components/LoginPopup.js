@@ -6,8 +6,10 @@ function LoginPopup() {
 
 const { setShowLoginPopup } = useContext(GlobalContext);
 const signIn = useSignIn();
-const [formData, setFormData] = React.useState({email: '', password: ''});
-
+const [formData, setFormData] = React.useState({email: '', password: '', fullName: ''});
+const [email, setEmail] = React.useState('xdddddddddddddd@xd.pl');
+const [password, setPassword] = React.useState('password');
+const [fullName, setFullName] = React.useState('');
 function isRegister() {
   var checkBox = document.getElementById("isRegister");
   if (checkBox.checked === true){
@@ -28,12 +30,39 @@ function isRegister() {
 }
 
 const onSubmit = (e) => {
-  console.log({FormData:[0]})
   e.preventDefault()
-  fetch('https://130.162.217.192/project/get-all')
-      .then(res => {
-        console.log(res)
-      })
+  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;      //wyłącza SSLa, dokumentacja zaznacza że to w chuj niebezpieczne
+  var checkBox = document.getElementById("isRegister")
+  console.log(FormData[0])
+  if(checkBox.checked === true){
+    fetch("https://130.162.217.192/user/register", {
+      method: "PUT",
+      body: JSON.stringify({
+          "email": "xdddddd@xd.pl",
+          "password": "password",
+          "fullName": "XDDDDDD"
+      }),
+      headers: {
+          'Content-Type': 'application/json',
+          rejectUnauthorized: false
+      }
+  })
+      .then(res => console.log(res))
+  }
+  else{
+    fetch("https://130.162.217.192/auth/login", {
+      method: "POST",
+      body: JSON.stringify({
+          "email": email,
+          "password": password
+      }),
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+      .then(res => console.log(res))
+  }
+
   // axios.post('https://130.162.217.192/auth/login', formData)
   // axios.get('https://catfact.ninja/breeds')
 //   fetch("https://catfact.ninja/breeds", {
