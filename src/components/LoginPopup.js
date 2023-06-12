@@ -6,10 +6,10 @@ function LoginPopup() {
 
 const { setShowLoginPopup } = useContext(GlobalContext);
 const signIn = useSignIn();
-const [formData, setFormData] = React.useState({email: '', password: '', fullName: ''});
-const [email, setEmail] = React.useState('xdddddddddddddd@xd.pl');
-const [password, setPassword] = React.useState('password');
-const [fullName, setFullName] = React.useState('');
+const [formLoginData, setFormLoginData] = React.useState({email: '', password: ''});
+const [formRegisterData, setFormRegisterData] = React.useState({email: '', password: '', fullName: ''})
+const { setJWT } = useContext(GlobalContext);
+const { setRefreshToken } = useContext(GlobalContext);
 function isRegister() {
   var checkBox = document.getElementById("isRegister");
   if (checkBox.checked === true){
@@ -29,73 +29,34 @@ function isRegister() {
   }
 }
 
+const updateEmailForm = (e) =>{
+  setFormLoginData({...formLoginData, email: e.target.value})
+  setFormRegisterData({...formRegisterData, email: e.target.value})
+}
+
+const updatePassForm = (e) =>{
+  setFormLoginData({...formLoginData, password: e.target.value})
+  setFormRegisterData({...formRegisterData, password: e.target.value})
+}
+
 const onSubmit = (e) => {
   e.preventDefault()
-  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;      //wyłącza SSLa, dokumentacja zaznacza że to w chuj niebezpieczne
+  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
   var checkBox = document.getElementById("isRegister")
-  console.log(FormData[0])
   if(checkBox.checked === true){
-    fetch("https://130.162.217.192/user/register", {
-      method: "PUT",
-      body: JSON.stringify({
-          "email": "xdddddd@xd.pl",
-          "password": "password",
-          "fullName": "XDDDDDD"
-      }),
-      headers: {
-          'Content-Type': 'application/json',
-          rejectUnauthorized: false
-      }
-  })
+    setFormRegisterData(formLoginData);
+    axios.put('https://130.162.217.192/user/register', formRegisterData)
       .then(res => console.log(res))
+    alert("konto zostało założone poprawnie, możesz się teraz na nie zalogować")
   }
   else{
-    fetch("https://130.162.217.192/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
-          "email": email,
-          "password": password
-      }),
-      headers: {
-          'Content-Type': 'application/json'
-      }
-  })
-      .then(res => console.log(res))
+      axios.post('https://130.162.217.192/auth/login', formLoginData)
+      .then(res => {
+        setJWT(res.data.token)
+        setRefreshToken(res.data.refreshToken)
+        setShowLoginPopup(false)
+      })
   }
-
-  // axios.post('https://130.162.217.192/auth/login', formData)
-  // axios.get('https://catfact.ninja/breeds')
-//   fetch("https://catfact.ninja/breeds", {
-//   method: "POST",
-//   body: JSON.stringify({
-//     "email": "xddddddddddddddddddd@xd.pl",
-//     "password": "password"
-//   }),
-//   headers: {
-//     "Content-type": "application/json; charset=UTF-8"
-//   }
-// }).then((response) => response.json())
-// .then((json) => console.log(json));
-      // .then((res)=>{
-      //     if(res.status === 200){
-      //         if(signIn(
-      //             {
-      //                 token: res.data.token,
-      //                 expiresIn:res.data.expiresIn,
-      //                 tokenType: "Bearer",
-      //                 authState: res.data.authUserState,
-      //                 refreshToken: res.data.refreshToken,                
-      //                 refreshTokenExpireIn: res.data.refreshTokenExpireIn
-      //             }
-      //         )){ // Only if you are using refreshToken feature
-      //             // Redirect or do-something
-      //             console.log("it just works!");
-      //         }else {
-      //             //Throw error
-      //             console.log("it just DON'T works!");
-      //         }
-      //     }
-      // })
 }
 
 
@@ -131,7 +92,7 @@ const onSubmit = (e) => {
             type="email"
             id="email"
             required
-            onChange={(e)=>setFormData({...formData, email: e.target.value})}
+            onChange={(e)=>updateEmailForm(e)}
             className="pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
           />
           <div id="usernameDiv" className="hidden">
@@ -139,6 +100,7 @@ const onSubmit = (e) => {
             <input
               type="text"
               id="username"
+              onChange={(e)=>setFormRegisterData({...formRegisterData, fullName: e.target.value})}
               className="pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
             />
           </div>
@@ -147,11 +109,11 @@ const onSubmit = (e) => {
             type="password"
             id="password"
             required
-            onChange={(e)=>setFormData({...formData, password: e.target.value})}
+            onChange={(e)=>updatePassForm(e)}
             className="pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
           />
           <div id="passwordDiv" className="hidden">
-            <label htmlFor="passwordRepeat">Hasło:</label>
+            <label htmlFor="passwordRepeat">Powtórz hasło:</label>
             <input
               type="password"
               id="passwordRepeat"

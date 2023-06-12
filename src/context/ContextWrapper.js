@@ -34,6 +34,8 @@ export default function ContextWrapper(props) {
   const [showEventModal, setShowEventModal] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [JWT, setJWT] = useState();
+  const [refreshToken, setRefreshToken] = useState();
   const [labels, setLabels] = useState([]);
   const [savedEvents, dispatchCalEvent] = useReducer(
     savedEventsReducer,
@@ -109,6 +111,10 @@ export default function ContextWrapper(props) {
         labels,
         updateLabel,
         filteredEvents,
+        JWT,
+        setJWT,
+        refreshToken,
+        setRefreshToken
       }}
     >
       {props.children}

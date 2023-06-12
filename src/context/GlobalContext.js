@@ -13,12 +13,17 @@ const GlobalContext = React.createContext({
   setShowLoginPopup: () => {},
   dispatchCalEvent: ({ type, payload }) => {},
   savedEvents: [],
+  setSavedEvents: () => {},
   selectedEvent: null,
   setSelectedEvent: () => {},
   setLabels: () => {},
   labels: [],
   updateLabel: () => {},
   filteredEvents: [],
+  JWT: null,
+  setJWT: () => {},
+  refreshToken: null,
+  setRefreshToken: () => {}
 });
 
 export default GlobalContext;

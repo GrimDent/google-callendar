@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import React, { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
 import OpenLoginPopup from "./OpenLoginPopup";
+import Logout from "./Logout";
 export default function CalendarHeader() {
   const { monthIndex, setMonthIndex } = useContext(GlobalContext);
   function handlePrevMonth() {
@@ -44,6 +45,7 @@ export default function CalendarHeader() {
         )}
       </h2>
       <OpenLoginPopup/>
+      <Logout/>
     </header>
   );
 }
