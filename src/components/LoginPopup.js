@@ -8,8 +8,10 @@ const { setShowLoginPopup } = useContext(GlobalContext);
 const signIn = useSignIn();
 const [formLoginData, setFormLoginData] = React.useState({email: '', password: ''});
 const [formRegisterData, setFormRegisterData] = React.useState({email: '', password: '', fullName: ''})
-const { setJWT } = useContext(GlobalContext);
-const { setRefreshToken } = useContext(GlobalContext);
+const { setJWT,
+        setShowLoginButton,
+        setShowLogoutButton,
+        setRefreshToken  } = useContext(GlobalContext);
 function isRegister() {
   var checkBox = document.getElementById("isRegister");
   if (checkBox.checked === true){
@@ -55,6 +57,9 @@ const onSubmit = (e) => {
         setJWT(res.data.token)
         setRefreshToken(res.data.refreshToken)
         setShowLoginPopup(false)
+        setShowLoginButton(false)
+        setShowLogoutButton(true)
+        
       })
   }
 }

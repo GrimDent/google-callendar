@@ -4,7 +4,10 @@ import GlobalContext from "../context/GlobalContext";
 import OpenLoginPopup from "./OpenLoginPopup";
 import Logout from "./Logout";
 export default function CalendarHeader() {
-  const { monthIndex, setMonthIndex } = useContext(GlobalContext);
+  const { monthIndex, 
+          setMonthIndex,
+          showLoginButton,
+          showLogoutButton } = useContext(GlobalContext);
   function handlePrevMonth() {
     setMonthIndex(monthIndex - 1);
   }
@@ -44,8 +47,8 @@ export default function CalendarHeader() {
           "MMMM YYYY"
         )}
       </h2>
-      <OpenLoginPopup/>
-      <Logout/>
+      {showLoginButton && <OpenLoginPopup/>}
+      {showLogoutButton && <Logout/>}
     </header>
   );
 }

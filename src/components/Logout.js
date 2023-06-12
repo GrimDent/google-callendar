@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
 export default function CreateEventButton() {
 
-const { setJWT } = useContext(GlobalContext);
-const { savedEvents } = useContext(GlobalContext);
-const { dispatchCalEvent } = useContext(GlobalContext);
+const { setJWT,
+    savedEvents,
+    dispatchCalEvent,
+    setShowLoginButton,
+    setShowLogoutButton } = useContext(GlobalContext);
 
 function logout(){
     setJWT(null);
@@ -14,6 +16,8 @@ function logout(){
             payload: savedEvents[i],
           });
     }
+    setShowLoginButton(true)
+    setShowLogoutButton(false)
     
 }
 

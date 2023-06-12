@@ -33,6 +33,8 @@ export default function ContextWrapper(props) {
   const [daySelected, setDaySelected] = useState(dayjs());
   const [showEventModal, setShowEventModal] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showLoginButton, setShowLoginButton] = useState(true);
+  const [showLogoutButton, setShowLogoutButton] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [JWT, setJWT] = useState();
   const [refreshToken, setRefreshToken] = useState();
@@ -103,6 +105,10 @@ export default function ContextWrapper(props) {
         setShowEventModal,
         showLoginPopup,
         setShowLoginPopup,
+        showLoginButton,
+        setShowLoginButton,
+        showLogoutButton,
+        setShowLogoutButton,
         dispatchCalEvent,
         selectedEvent,
         setSelectedEvent,
