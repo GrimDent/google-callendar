@@ -9,8 +9,6 @@ const GlobalContext = React.createContext({
   setDaySelected: (day) => {},
   showEventModal: false,
   setShowEventModal: () => {},
-  showProjectModal: false,
-  setShowProjectModal: () => {},
   showLoginPopup: true,
   setShowLoginPopup: () => {},
   showLoginButton: true,
@@ -22,11 +20,6 @@ const GlobalContext = React.createContext({
   setSavedEvents: () => {},
   selectedEvent: null,
   setSelectedEvent: () => {},
-  dispatchProjects: ({ type, payload }) => {},
-  savedProjects: [],
-  setSavedProjects: () => {},
-  selectedProject: null,
-  setSelectedProject: () => {},
   setLabels: () => {},
   labels: [],
   updateLabel: () => {},
@@ -34,7 +27,11 @@ const GlobalContext = React.createContext({
   JWT: null,
   setJWT: () => {},
   refreshToken: null,
-  setRefreshToken: () => {}
+  setRefreshToken: () => {},
+  email: null,
+  setEmail: () => {},
+  projects: [],
+  updateProjects: () => {}
 });
 
 export default GlobalContext;

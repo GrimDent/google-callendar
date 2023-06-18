@@ -1,5 +1,8 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
+import axios from "axios";
+import convertCssColorNameToHex from 'convert-css-color-name-to-hex';
+import dayjs from "dayjs";
 
 const labelsClasses = [
   "indigo",
@@ -16,6 +19,10 @@ export default function EventModal() {
     daySelected,
     dispatchCalEvent,
     selectedEvent,
+    JWT,
+    email,
+    projects,
+    updateProjects
   } = useContext(GlobalContext);
 
   const [title, setTitle] = useState(
@@ -43,6 +50,34 @@ export default function EventModal() {
       dispatchCalEvent({ type: "update", payload: calendarEvent });
     } else {
       dispatchCalEvent({ type: "push", payload: calendarEvent });
+      axios.put('https://130.162.217.192/project/create', {
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT},
+      data: {
+        name: selectedLabel,
+        shortName: "XD",
+        color: convertCssColorNameToHex(selectedLabel),
+        active: true
+      }
+    }).then(res => {console.log(res)
+    updateProjects([res.data.id, selectedLabel])})
+    axios.put('https://130.162.217.192/project/assign-user', {
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT},
+      data: {
+        userEmail: email,
+        id: projects[projects.length -1][0]
+      }
+    }).then(res => console.log(res))
+    axios.put('https://130.162.217.192/task/create', {
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT},
+      data: {
+        title: title,
+        description: description,
+        projectId: projects[projects.length -1][0],
+        startDate: dayjs(daySelected.valueOf().format('YYYY-MM-DD HH:mm:ss')),
+        endDate: dayjs(daySelected.valueOf().format('YYYY-MM-DD HH:mm:ss'))
+      }
+    }).then(res => {console.log(res)
+    })
     }
 
     setShowEventModal(false);

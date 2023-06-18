@@ -21,29 +21,10 @@ function savedEventsReducer(state, { type, payload }) {
       throw new Error();
   }
 }
-function savedProjectsReducer(state, { type, payload }) {
-  switch (type) {
-    case "push":
-      return [...state, payload];
-    case "update":
-      return state.map((evt) =>
-        evt.id === payload.id ? payload : evt
-      );
-    case "delete":
-      return state.filter((evt) => evt.id !== payload.id);
-    default:
-      throw new Error();
-  }
-}
 function initEvents() {
   const storageEvents = localStorage.getItem("savedEvents");
   const parsedEvents = storageEvents ? JSON.parse(storageEvents) : [];
   return parsedEvents;
-}
-function initProjects() {
-  const storageProjects = localStorage.getItem("savedProjects");
-  const parsedProjects = storageProjects ? JSON.parse(storageProjects) : [];
-  return parsedProjects;
 }
 
 export default function ContextWrapper(props) {
@@ -51,24 +32,19 @@ export default function ContextWrapper(props) {
   const [smallCalendarMonth, setSmallCalendarMonth] = useState(null);
   const [daySelected, setDaySelected] = useState(dayjs());
   const [showEventModal, setShowEventModal] = useState(false);
-  const [showProjectModal, setShowProjectModal] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [showLoginButton, setShowLoginButton] = useState(true);
   const [showLogoutButton, setShowLogoutButton] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [selectedProject, setSelectedProject] = useState(null);
   const [JWT, setJWT] = useState();
+  const [email, setEmail] = useState();
+  const [projects, updateProjects] = useState([]);
   const [refreshToken, setRefreshToken] = useState();
   const [labels, setLabels] = useState([]);
   const [savedEvents, dispatchCalEvent] = useReducer(
     savedEventsReducer,
     [],
     initEvents
-  );
-  const [savedProjects, dispatchProjects] = useReducer(
-    savedProjectsReducer,
-    [],
-    initProjects
   );
 
   const filteredEvents = useMemo(() => {
@@ -83,10 +59,6 @@ export default function ContextWrapper(props) {
   useEffect(() => {
     localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
   }, [savedEvents]);
-
-  useEffect(() => {
-    localStorage.setItem("savedProjects", JSON.stringify(savedProjects));
-  }, [savedProjects]);
 
   useEffect(() => {
     setLabels((prevLabels) => {
@@ -104,7 +76,6 @@ export default function ContextWrapper(props) {
     });
   }, [savedEvents]);
 
-
   useEffect(() => {
     if (smallCalendarMonth !== null) {
       setMonthIndex(smallCalendarMonth);
@@ -116,12 +87,6 @@ export default function ContextWrapper(props) {
       setSelectedEvent(null);
     }
   }, [showEventModal]);
-
-  useEffect(() => {
-    if (!showProjectModal) {
-      setSelectedProject(null);
-    }
-  }, [showProjectModal]);
 
   function updateLabel(label) {
     setLabels(
@@ -140,8 +105,6 @@ export default function ContextWrapper(props) {
         setDaySelected,
         showEventModal,
         setShowEventModal,
-        showProjectModal,
-        setShowProjectModal,
         showLoginPopup,
         setShowLoginPopup,
         showLoginButton,
@@ -149,19 +112,19 @@ export default function ContextWrapper(props) {
         showLogoutButton,
         setShowLogoutButton,
         dispatchCalEvent,
-        dispatchProjects,
         selectedEvent,
         setSelectedEvent,
-        selectedProject,
-        setSelectedProject,
         savedEvents,
-        savedProjects,
         setLabels,
         labels,
         updateLabel,
         filteredEvents,
         JWT,
         setJWT,
+        email,
+        setEmail,
+        projects,
+        updateProjects,
         refreshToken,
         setRefreshToken
       }}

@@ -3,6 +3,7 @@ import GlobalContext from "../context/GlobalContext";
 export default function CreateEventButton() {
 
 const { setJWT,
+    setEmail,
     savedEvents,
     dispatchCalEvent,
     setShowLoginButton,
@@ -10,6 +11,7 @@ const { setJWT,
 
 function logout(){
     setJWT(null);
+    setEmail(null);
     for(let i=0; i<savedEvents.length; i+=1){
         dispatchCalEvent({
             type: "delete",

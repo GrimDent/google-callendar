@@ -8,12 +8,10 @@ import GlobalContext from "./context/GlobalContext";
 import EventModal from "./components/EventModal";
 import LoginPopup from "./components/LoginPopup";
 import { AuthProvider } from "react-auth-kit";
-import ProjectModal from "./components/ProjectModal";
 function App() {
   const [currenMonth, setCurrentMonth] = useState(getMonth());
   const { monthIndex, showEventModal } = useContext(GlobalContext);
   const { showLoginPopup } = useContext(GlobalContext);
-  const { showProjectModal } = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));
@@ -27,7 +25,6 @@ function App() {
       >
         {showEventModal && <EventModal />}
         {showLoginPopup && <LoginPopup />}
-        {showProjectModal && <ProjectModal/>}
         <div className="h-screen flex flex-col">
         <CalendarHeader />
         <div className="flex flex-1">

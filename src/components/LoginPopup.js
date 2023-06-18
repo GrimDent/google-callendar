@@ -9,6 +9,7 @@ const signIn = useSignIn();
 const [formLoginData, setFormLoginData] = React.useState({email: '', password: ''});
 const [formRegisterData, setFormRegisterData] = React.useState({email: '', password: '', fullName: ''})
 const { setJWT,
+        setEmail,
         setShowLoginButton,
         setShowLogoutButton,
         setRefreshToken  } = useContext(GlobalContext);
@@ -34,6 +35,7 @@ function isRegister() {
 const updateEmailForm = (e) =>{
   setFormLoginData({...formLoginData, email: e.target.value})
   setFormRegisterData({...formRegisterData, email: e.target.value})
+  setEmail(e.target.value)
 }
 
 const updatePassForm = (e) =>{
