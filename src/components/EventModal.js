@@ -37,7 +37,12 @@ export default function EventModal() {
       : labelsClasses[0]
   );
 
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
   function handleSubmit(e) {
+    try{
     e.preventDefault();
     const calendarEvent = {
       title,
@@ -47,39 +52,32 @@ export default function EventModal() {
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
     if (selectedEvent) {
-      dispatchCalEvent({ type: "update", payload: calendarEvent });
+      // dispatchCalEvent({ type: "update", payload: calendarEvent });
     } else {
       dispatchCalEvent({ type: "push", payload: calendarEvent });
+
       axios.put('https://130.162.217.192/project/create', {
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT},
-      data: {
         name: selectedLabel,
         shortName: "XD",
-        color: convertCssColorNameToHex(selectedLabel),
-        active: true
-      }
+        color: convertCssColorNameToHex(selectedLabel), 
+        startDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
+        endDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss')
+    },{headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}
     }).then(res => {console.log(res)
     updateProjects([res.data.id, selectedLabel])})
-    axios.put('https://130.162.217.192/project/assign-user', {
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT},
-      data: {
-        userEmail: email,
-        id: projects[projects.length -1][0]
-      }
-    }).then(res => console.log(res))
+    console.log("projects", projects)
+    sleep(50)
     axios.put('https://130.162.217.192/task/create', {
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT},
-      data: {
         title: title,
         description: description,
-        projectId: projects[projects.length -1][0],
-        startDate: dayjs(daySelected.valueOf().format('YYYY-MM-DD HH:mm:ss')),
-        endDate: dayjs(daySelected.valueOf().format('YYYY-MM-DD HH:mm:ss'))
-      }
-    }).then(res => {console.log(res)
+        projectId: projects[0],
+        startDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
+        endDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss')
+    }, {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}}).then(res => {console.log(res)
     })
     }
-
+  }
+  catch{}
     setShowEventModal(false);
   }
   return (

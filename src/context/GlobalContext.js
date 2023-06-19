@@ -15,6 +15,8 @@ const GlobalContext = React.createContext({
   setShowLoginButton: () => {},
   showLogoutButton: false,
   setShowLogoutButton: () => {},
+  showUpdateButton: false,
+  setShowUpdateButton: () => {},
   dispatchCalEvent: ({ type, payload }) => {},
   savedEvents: [],
   setSavedEvents: () => {},

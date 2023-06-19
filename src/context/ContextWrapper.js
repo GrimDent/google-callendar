@@ -35,6 +35,7 @@ export default function ContextWrapper(props) {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [showLoginButton, setShowLoginButton] = useState(true);
   const [showLogoutButton, setShowLogoutButton] = useState(false);
+  const [showUpdateButton, setShowUpdateButton] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [JWT, setJWT] = useState();
   const [email, setEmail] = useState();
@@ -111,6 +112,8 @@ export default function ContextWrapper(props) {
         setShowLoginButton,
         showLogoutButton,
         setShowLogoutButton,
+        showUpdateButton,
+        setShowUpdateButton,
         dispatchCalEvent,
         selectedEvent,
         setSelectedEvent,
