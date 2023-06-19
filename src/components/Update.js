@@ -10,10 +10,10 @@ const { JWT,
         daySelected,
         setShowUpdateButton } = useContext(GlobalContext);
 const [projects, updateProjects] = useState()
-const [tasks, setTasks] = useState()
+const [tasks, updateTasks] = useState()
 let ids = []
 let colors = []
-let startDates = []
+let titles = []
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -33,10 +33,14 @@ function updateFunction(){
     axios.get(`https://130.162.217.192/task/get-all-from-project?projectId=${ids[i]}`, {
     headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}
   }).then(res => {
-    }) 
+    updateTasks(res.data[0])
+    // titles.push(res.data[0].id)
+    // console.log(res.data[0])
+}) 
   }
+  console.log("tasks",titles)
   for(let i=0; i<projects.length; i+=1){
-    let title = "XD"
+    let title = projects[i].shortName
     let description  = "XD"
     let label = projects[i].name
     let day = dayjs(projects[i].startDate).format('YYYY-MM-DD')
@@ -54,7 +58,7 @@ function updateFunction(){
   }
   }
   sleep(500)
-  setShowUpdateButton(false)
+//   setShowUpdateButton(false)
     }catch(e){
 
     }
@@ -65,7 +69,7 @@ return (
       onClick={() => updateFunction()}
       className="border p-2 rounded-full absolute right-40 shadow-md hover:shadow-2xl"
     >
-      <span className="pl-3 pr-7">XD</span>
+      <span className="material-icons-outlined text-gray-400">refresh</span>
     </button>
   );
 }

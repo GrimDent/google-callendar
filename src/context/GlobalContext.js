@@ -33,7 +33,9 @@ const GlobalContext = React.createContext({
   email: null,
   setEmail: () => {},
   projects: [],
-  updateProjects: () => {}
+  updateProjects: () => {},
+  tasks: [],
+  updateTasks: () => {}
 });
 
 export default GlobalContext;

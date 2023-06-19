@@ -21,9 +21,11 @@ export default function EventModal() {
     selectedEvent,
     JWT,
     email,
-    projects,
-    updateProjects
+    // projects,
+    // updateProjects
   } = useContext(GlobalContext);
+
+  const[projects, updateProjects] = useState()
 
   const [title, setTitle] = useState(
     selectedEvent ? selectedEvent.title : ""
@@ -58,15 +60,24 @@ export default function EventModal() {
 
       axios.put('https://130.162.217.192/project/create', {
         name: selectedLabel,
-        shortName: "XD",
+        shortName: title,
         color: convertCssColorNameToHex(selectedLabel), 
         startDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
         endDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss')
     },{headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}
     }).then(res => {console.log(res)
-    updateProjects([res.data.id, selectedLabel])})
-    console.log("projects", projects)
-    sleep(50)
+    updateProjects(res.data.id)
+    console.log(projects)})
+    // console.log("projects", projects)
+    sleep(500)
+    createTask()
+    }
+  }
+  catch{}
+    setShowEventModal(false);
+  }
+
+  function createTask(){
     axios.put('https://130.162.217.192/task/create', {
         title: title,
         description: description,
@@ -75,10 +86,6 @@ export default function EventModal() {
         endDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss')
     }, {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}}).then(res => {console.log(res)
     })
-    }
-  }
-  catch{}
-    setShowEventModal(false);
   }
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
@@ -163,7 +170,7 @@ export default function EventModal() {
             onClick={handleSubmit}
             className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded text-white"
           >
-            Save
+            Zapisz
           </button>
         </footer>
       </form>

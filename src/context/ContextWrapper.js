@@ -40,6 +40,7 @@ export default function ContextWrapper(props) {
   const [JWT, setJWT] = useState();
   const [email, setEmail] = useState();
   const [projects, updateProjects] = useState([]);
+  const [tasks, updateTasks] = useState([]);
   const [refreshToken, setRefreshToken] = useState();
   const [labels, setLabels] = useState([]);
   const [savedEvents, dispatchCalEvent] = useReducer(
@@ -128,6 +129,8 @@ export default function ContextWrapper(props) {
         setEmail,
         projects,
         updateProjects,
+        tasks,
+        updateTasks,
         refreshToken,
         setRefreshToken
       }}
