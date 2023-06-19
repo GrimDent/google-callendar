@@ -65,9 +65,10 @@ export default function EventModal() {
         startDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
         endDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss')
     },{headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}
-    }).then(res => {console.log(res)
+    }).then(res => {/*console.log(res)*/
     updateProjects(res.data.id)
-    console.log(projects)})
+    // console.log(projects)
+  })
     // console.log("projects", projects)
     sleep(500)
     createTask()
@@ -84,7 +85,7 @@ export default function EventModal() {
         projectId: projects[0],
         startDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
         endDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss')
-    }, {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}}).then(res => {console.log(res)
+    }, {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}}).then(res => {/*console.log(res)*/
     })
   }
   return (
@@ -106,7 +107,7 @@ export default function EventModal() {
                 }}
                 className="material-icons-outlined text-gray-400 cursor-pointer"
               >
-                delete
+                {/* delete */}
               </span>
             )}
             <button onClick={() => setShowEventModal(false)}>

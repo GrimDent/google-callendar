@@ -58,7 +58,7 @@ function updateFunction(){
   }
   }
   sleep(500)
-//   setShowUpdateButton(false)
+  setShowUpdateButton(false)
     }catch(e){
 
     }
