@@ -2,8 +2,15 @@ import dayjs from "dayjs";
 import React, { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
 import OpenLoginPopup from "./OpenLoginPopup";
+import Logout from "./Logout";
+import Update from "./Update";
+
 export default function CalendarHeader() {
-  const { monthIndex, setMonthIndex } = useContext(GlobalContext);
+  const { monthIndex, 
+          setMonthIndex,
+          showLoginButton,
+          showLogoutButton,
+          showUpdateButton } = useContext(GlobalContext);
   function handlePrevMonth() {
     setMonthIndex(monthIndex - 1);
   }
@@ -43,7 +50,9 @@ export default function CalendarHeader() {
           "MMMM YYYY"
         )}
       </h2>
-      <OpenLoginPopup/>
+      {showUpdateButton && <Update/>}
+      {showLoginButton && <OpenLoginPopup/>}
+      {showLogoutButton && <Logout/>}
     </header>
   );
 }

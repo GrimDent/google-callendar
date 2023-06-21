@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: app-dev
+    image: app-dev
+    build:
+      context: .
+    volumes:
+      - ./src:/app/src
+      - ./node-modules:/app/node-modules
+    ports:
+      - '3000:3000'

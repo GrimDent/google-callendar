@@ -1,5 +1,8 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
+import axios from "axios";
+import convertCssColorNameToHex from 'convert-css-color-name-to-hex';
+import dayjs from "dayjs";
 
 const labelsClasses = [
   "indigo",
@@ -16,7 +19,13 @@ export default function EventModal() {
     daySelected,
     dispatchCalEvent,
     selectedEvent,
+    JWT,
+    email,
+    // projects,
+    // updateProjects
   } = useContext(GlobalContext);
+
+  const[projects, updateProjects] = useState()
 
   const [title, setTitle] = useState(
     selectedEvent ? selectedEvent.title : ""
@@ -30,7 +39,12 @@ export default function EventModal() {
       : labelsClasses[0]
   );
 
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
   function handleSubmit(e) {
+    try{
     e.preventDefault();
     const calendarEvent = {
       title,
@@ -40,12 +54,39 @@ export default function EventModal() {
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
     if (selectedEvent) {
-      dispatchCalEvent({ type: "update", payload: calendarEvent });
+      // dispatchCalEvent({ type: "update", payload: calendarEvent });
     } else {
       dispatchCalEvent({ type: "push", payload: calendarEvent });
-    }
 
+      axios.put('https://130.162.217.192/project/create', {
+        name: selectedLabel,
+        shortName: title,
+        color: convertCssColorNameToHex(selectedLabel), 
+        startDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
+        endDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss')
+    },{headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}
+    }).then(res => {/*console.log(res)*/
+    updateProjects(res.data.id)
+    // console.log(projects)
+  })
+    // console.log("projects", projects)
+    sleep(500)
+    createTask()
+    }
+  }
+  catch{}
     setShowEventModal(false);
+  }
+
+  function createTask(){
+    axios.put('https://130.162.217.192/task/create', {
+        title: title,
+        description: description,
+        projectId: projects[0],
+        startDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
+        endDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss')
+    }, {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}}).then(res => {/*console.log(res)*/
+    })
   }
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
@@ -66,7 +107,7 @@ export default function EventModal() {
                 }}
                 className="material-icons-outlined text-gray-400 cursor-pointer"
               >
-                delete
+                {/* delete */}
               </span>
             )}
             <button onClick={() => setShowEventModal(false)}>
@@ -82,7 +123,7 @@ export default function EventModal() {
             <input
               type="text"
               name="title"
-              placeholder="Add title"
+              placeholder="Nazwa zadania"
               value={title}
               required
               className="pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
@@ -98,7 +139,7 @@ export default function EventModal() {
             <input
               type="text"
               name="description"
-              placeholder="Add a description"
+              placeholder="Opis zadania"
               value={description}
               required
               className="pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
@@ -130,7 +171,7 @@ export default function EventModal() {
             onClick={handleSubmit}
             className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded text-white"
           >
-            Save
+            Zapisz
           </button>
         </footer>
       </form>

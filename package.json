@@ -10,8 +10,11 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
+    "convert-css-color-name-to-hex": "^0.1.1",
     "dayjs": "^1.11.7",
+    "hex-color-to-color-name": "^1.0.2",
     "react": "^18.2.0",
+    "react-auth-kit": "^2.12.2",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"

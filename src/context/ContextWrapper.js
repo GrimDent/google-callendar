@@ -33,7 +33,15 @@ export default function ContextWrapper(props) {
   const [daySelected, setDaySelected] = useState(dayjs());
   const [showEventModal, setShowEventModal] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showLoginButton, setShowLoginButton] = useState(true);
+  const [showLogoutButton, setShowLogoutButton] = useState(false);
+  const [showUpdateButton, setShowUpdateButton] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [JWT, setJWT] = useState();
+  const [email, setEmail] = useState();
+  const [projects, updateProjects] = useState([]);
+  const [tasks, updateTasks] = useState([]);
+  const [refreshToken, setRefreshToken] = useState();
   const [labels, setLabels] = useState([]);
   const [savedEvents, dispatchCalEvent] = useReducer(
     savedEventsReducer,
@@ -101,6 +109,12 @@ export default function ContextWrapper(props) {
         setShowEventModal,
         showLoginPopup,
         setShowLoginPopup,
+        showLoginButton,
+        setShowLoginButton,
+        showLogoutButton,
+        setShowLogoutButton,
+        showUpdateButton,
+        setShowUpdateButton,
         dispatchCalEvent,
         selectedEvent,
         setSelectedEvent,
@@ -109,6 +123,16 @@ export default function ContextWrapper(props) {
         labels,
         updateLabel,
         filteredEvents,
+        JWT,
+        setJWT,
+        email,
+        setEmail,
+        projects,
+        updateProjects,
+        tasks,
+        updateTasks,
+        refreshToken,
+        setRefreshToken
       }}
     >
       {props.children}
