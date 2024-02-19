@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@bitnoi.se/react-scheduler": "^0.1.5",
     "@craco/craco": "^5.9.0",
     "@rollup/plugin-terser": "^0.4.0",
     "@tailwindcss/forms": "^0.5.3",
@@ -11,12 +12,15 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "convert-css-color-name-to-hex": "^0.1.1",
+    "craco": "^0.0.3",
     "dayjs": "^1.11.7",
     "hex-color-to-color-name": "^1.0.2",
     "react": "^18.2.0",
     "react-auth-kit": "^2.12.2",
+    "react-datepicker": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
+    "vis-timeline": "^7.7.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

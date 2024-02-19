@@ -8,6 +8,7 @@ const { JWT,
         selectedEvent,
         dispatchCalEvent,
         daySelected,
+        savedEvents,
         setShowUpdateButton } = useContext(GlobalContext);
 const [projects, updateProjects] = useState()
 const [tasks, updateTasks] = useState()
@@ -21,7 +22,7 @@ function sleep(ms) {
 
 function updateFunction(){
     try{
-    axios.get('https://130.162.217.192/project/get-all', {
+    axios.get('https://130.162.217.192/project/get-all-assigned-to-user', {
     headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}
   }).then(res => {
   updateProjects(res.data)})
@@ -38,18 +39,21 @@ function updateFunction(){
     // console.log(res.data[0])
 }) 
   }
-  console.log("tasks",titles)
+  console.log(savedEvents)
   for(let i=0; i<projects.length; i+=1){
     let title = projects[i].shortName
     let description  = "XD"
     let label = projects[i].name
     let day = dayjs(projects[i].startDate).format('YYYY-MM-DD')
+    let end = dayjs(projects[i].endDate).format('YYYY-MM-DD')
+    let id = ids[i]
     const calendarEvent = {
         title,
         description,
         label: label,
         day: day,
-        id: selectedEvent ? selectedEvent.id : Date.now(),
+        end: end,
+        id: id,
       };
       if (selectedEvent) {
         dispatchCalEvent({ type: "update", payload: calendarEvent });

@@ -13,7 +13,8 @@ const { setJWT,
         setShowLoginButton,
         setShowLogoutButton,
         setShowUpdateButton,
-        setRefreshToken } = useContext(GlobalContext);
+        setRefreshToken,
+        setShowChartsButton } = useContext(GlobalContext);
 function isRegister() {
   var checkBox = document.getElementById("isRegister");
   if (checkBox.checked === true){
@@ -63,6 +64,7 @@ const onSubmit = (e) => {
         setShowLoginButton(false)
         setShowLogoutButton(true)
         setShowUpdateButton(true)
+        setShowChartsButton(true)
       })
 
   }

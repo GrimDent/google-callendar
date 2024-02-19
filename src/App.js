@@ -8,10 +8,11 @@ import GlobalContext from "./context/GlobalContext";
 import EventModal from "./components/EventModal";
 import LoginPopup from "./components/LoginPopup";
 import { AuthProvider } from "react-auth-kit";
+import Charts from "./components/Charts";
 function App() {
   const [currenMonth, setCurrentMonth] = useState(getMonth());
   const { monthIndex, showEventModal } = useContext(GlobalContext);
-  const { showLoginPopup } = useContext(GlobalContext);
+  const { showLoginPopup, showCharts } = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));
@@ -25,6 +26,7 @@ function App() {
       >
         {showEventModal && <EventModal />}
         {showLoginPopup && <LoginPopup />}
+        {showCharts && <Charts />}
         <div className="h-screen flex flex-col">
         <CalendarHeader />
         <div className="flex flex-1">

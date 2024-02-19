@@ -3,6 +3,8 @@ import GlobalContext from "../context/GlobalContext";
 import axios from "axios";
 import convertCssColorNameToHex from 'convert-css-color-name-to-hex';
 import dayjs from "dayjs";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const labelsClasses = [
   "indigo",
@@ -39,6 +41,8 @@ export default function EventModal() {
       : labelsClasses[0]
   );
 
+  const [endDate, setEndDate] = useState(new Date());
+
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -51,10 +55,23 @@ export default function EventModal() {
       description,
       label: selectedLabel,
       day: daySelected.valueOf(),
+      end: endDate,
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
     if (selectedEvent) {
-      // dispatchCalEvent({ type: "update", payload: calendarEvent });
+      dispatchCalEvent({ type: "update", payload: calendarEvent });
+      axios.patch('https://130.162.217.192/project/update', {
+        projectId: selectedEvent.id,
+        name: selectedLabel,
+        shortName: title,
+        color: convertCssColorNameToHex(selectedLabel), 
+        startDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
+        endDate: dayjs(endDate.valueOf()).format('YYYY-MM-DD HH:mm:ss')
+    },{headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}
+    }).then(res => {/*console.log(res)*/
+    updateProjects(res.data.id)
+    // console.log(projects)
+  })
     } else {
       dispatchCalEvent({ type: "push", payload: calendarEvent });
 
@@ -63,7 +80,7 @@ export default function EventModal() {
         shortName: title,
         color: convertCssColorNameToHex(selectedLabel), 
         startDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
-        endDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss')
+        endDate: dayjs(endDate.valueOf()).format('YYYY-MM-DD HH:mm:ss')
     },{headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}
     }).then(res => {/*console.log(res)*/
     updateProjects(res.data.id)
@@ -84,7 +101,7 @@ export default function EventModal() {
         description: description,
         projectId: projects[0],
         startDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss'),
-        endDate: dayjs(daySelected.valueOf()).format('YYYY-MM-DD HH:mm:ss')
+        endDate: dayjs(endDate).format('YYYY-MM-DD HH:mm:ss')
     }, {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+JWT}}).then(res => {/*console.log(res)*/
     })
   }
@@ -133,6 +150,8 @@ export default function EventModal() {
               schedule
             </span>
             <p>{daySelected.format("dddd, MMMM DD")}</p>
+            <DatePicker  className="inline w-full pt-3 border-0 text-gray-600" showIcon minDate={new Date()} selected={endDate} onChange={(date) => setEndDate(date)}/>
+            <br/>
             <span className="material-icons-outlined text-gray-400">
               segment
             </span>

@@ -8,7 +8,8 @@ const { setJWT,
     dispatchCalEvent,
     setShowLoginButton,
     setShowLogoutButton,
-    setShowUpdateButton } = useContext(GlobalContext);
+    setShowUpdateButton,
+    setShowChartsButton } = useContext(GlobalContext);
 
 function logout(){
     setJWT(null);
@@ -22,6 +23,7 @@ function logout(){
     setShowLoginButton(true)
     setShowLogoutButton(false)
     setShowUpdateButton(false)
+    setShowChartsButton(false)
     
 }
 
